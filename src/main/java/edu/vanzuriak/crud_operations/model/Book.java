@@ -20,8 +20,9 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
+@Builder
 @Document
-public class Book {
+public class Book extends AuditMetadata {
     @Id
     private String id;
     private String name;

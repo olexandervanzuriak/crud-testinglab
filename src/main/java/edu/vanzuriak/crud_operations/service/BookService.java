@@ -25,7 +25,7 @@ public class BookService {
 
     private List<Book> books = new ArrayList<>();
     {
-        books.add(new Book("1", "name1", "author1", "description1"));
+        books.add(new Book("name1", "author1", "description1"));
         books.add(new Book("2", "name2", "author2", "description2"));
         books.add(new Book("3", "name3", "author3", "description3"));
     };
