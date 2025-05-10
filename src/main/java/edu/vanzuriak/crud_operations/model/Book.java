@@ -12,7 +12,9 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Objects;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Data
@@ -22,12 +24,15 @@ import java.util.Objects;
 @ToString
 @Builder
 @Document
-public class Book extends AuditMetadata {
+public class Book {
     @Id
     private String id;
     private String name;
     private String author;
     private String description;
+
+    private LocalDateTime createDate;
+    private List<LocalDateTime> updateDate;
 
     public Book(String id, String name, String author, String description) {
         this.id = id;
@@ -42,14 +47,27 @@ public class Book extends AuditMetadata {
         this.description = description;
     }
 
+    @Builder
+    public Book(String id, String name, String author, String description, LocalDateTime createDate, List<LocalDateTime> updateDate) {
+        this.id = id;
+        this.name = name;
+        this.author = author;
+        this.description = description;
+        this.createDate = createDate;
+        this.updateDate = updateDate;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof Book book)) return false;
-        return Objects.equals(id, book.id);
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Book item = (Book) o;
+        return getId().equals(item.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return getId().hashCode();
     }
 }

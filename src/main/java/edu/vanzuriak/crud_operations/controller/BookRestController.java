@@ -9,6 +9,8 @@ package edu.vanzuriak.crud_operations.controller;
 */
 
 import edu.vanzuriak.crud_operations.model.Book;
+import edu.vanzuriak.crud_operations.request.BookCreateRequest;
+import edu.vanzuriak.crud_operations.request.BookUpdateRequest;
 import edu.vanzuriak.crud_operations.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -36,9 +38,20 @@ public class BookRestController {
         return bookService.create(book);
     }
 
+    @PostMapping("/dto")
+    public Book insert(@RequestBody BookCreateRequest request) {
+        return bookService.create(request);
+    }
+
+
     @PutMapping
     public Book edit(@RequestBody Book book) {
         return bookService.update(book);
+    }
+
+    @PutMapping("/dto")
+    public Book edit(@RequestBody BookUpdateRequest request) {
+        return bookService.update(request);
     }
 
     @DeleteMapping("{id}")

@@ -10,9 +10,12 @@ package edu.vanzuriak.crud_operations.service;
 
 import edu.vanzuriak.crud_operations.model.Book;
 import edu.vanzuriak.crud_operations.repository.BookRepository;
+import edu.vanzuriak.crud_operations.request.BookCreateRequest;
+import edu.vanzuriak.crud_operations.request.BookUpdateRequest;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import java.time.LocalDateTime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,8 +51,43 @@ public class BookService {
         return bookRepository.save(book);
     }
 
+    public Book create(BookCreateRequest request) {
+        if (bookRepository.existsByName(request.name())) {
+            return null;
+        }
+        Book book = mapToBook(request);
+        book.setCreateDate(LocalDateTime.now());
+        book.setUpdateDate(new ArrayList<LocalDateTime>());
+        return bookRepository.save(book);
+    }
+
     public Book update(Book book) {
         return bookRepository.save(book);
+    }
+
+    public Book update(BookUpdateRequest request) {
+        Book bookPersisted = bookRepository.findById(request.id()).orElse(null);
+        if (bookPersisted != null) {
+            List<LocalDateTime> updateDates = bookPersisted.getUpdateDate();
+            updateDates.add(LocalDateTime.now());
+            Book bookToUpdate =
+                    Book.builder()
+                            .id(request.id())
+                            .name(request.name())
+                            .author(request.author())
+                            .description(request.description())
+                            .createDate(bookPersisted.getCreateDate())
+                            .updateDate(updateDates)
+                            .build();
+            return bookRepository.save(bookToUpdate);
+
+        }
+        return null;
+    }
+
+    private Book mapToBook(BookCreateRequest request) {
+        Book book = new Book(request.name(), request.author(), request.description());
+        return book;
     }
 
     public void deleteById(String id) {
