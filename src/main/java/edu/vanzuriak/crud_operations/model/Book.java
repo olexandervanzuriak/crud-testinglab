@@ -30,9 +30,18 @@ public class Book {
     private String name;
     private String author;
     private String description;
+    private String code;
 
     private LocalDateTime createDate;
     private List<LocalDateTime> updateDate;
+
+    public Book(String id, String name, String author, String description, String code) {
+        this.id = id;
+        this.name = name;
+        this.author = author;
+        this.description = description;
+        this.code = code;
+    }
 
     public Book(String id, String name, String author, String description) {
         this.id = id;
@@ -48,11 +57,12 @@ public class Book {
     }
 
     @Builder
-    public Book(String id, String name, String author, String description, LocalDateTime createDate, List<LocalDateTime> updateDate) {
+    public Book(String id, String name, String author, String description, String code, LocalDateTime createDate, List<LocalDateTime> updateDate) {
         this.id = id;
         this.name = name;
         this.author = author;
         this.description = description;
+        this.code = code;
         this.createDate = createDate;
         this.updateDate = updateDate;
     }

@@ -9,6 +9,6 @@ package edu.vanzuriak.crud_operations.request;
 */
 
 
-public record BookUpdateRequest(String id, String name, String author, String description) {
+public record BookUpdateRequest(String id, String name, String author, String description, String code) {
 
 }

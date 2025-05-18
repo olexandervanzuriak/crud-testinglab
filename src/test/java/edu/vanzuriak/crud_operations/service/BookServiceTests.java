@@ -42,7 +42,7 @@ public class BookServiceTests {
     @Test
     void whenInsertNewItem_ThenCreateDateIsPresent() {
         //given
-        BookCreateRequest request = new BookCreateRequest("Book 1", "Author 1", "Cool description 1");
+        BookCreateRequest request = new BookCreateRequest("Book 1", "Author 1", "Cool description 1", "Code 1");
         LocalDateTime now = LocalDateTime.now();
         // when
         Book createdBook = underTest.create(request);
@@ -87,11 +87,11 @@ public class BookServiceTests {
     }
 
     @Test
-    void whenCreateWithDuplicateName_thenReturnNull() {
-        BookCreateRequest existingRequest = new BookCreateRequest("name1", "Author Original", "Original Desc");
+    void whenCreateWithDuplicateCode_thenReturnNull() {
+        BookCreateRequest existingRequest = new BookCreateRequest("name1", "Author Original", "Original Desc", "Code1");
         underTest.create(existingRequest);
 
-        BookCreateRequest duplicateRequest = new BookCreateRequest("name1", "someAuthor", "someDesc");
+        BookCreateRequest duplicateRequest = new BookCreateRequest("name1", "someAuthor", "someDesc", "Code1");
         Book created = underTest.create(duplicateRequest);
 
         assertNull(created);
@@ -110,7 +110,7 @@ public class BookServiceTests {
         int previousUpdateSize = original.getUpdateDate().size();
 
         BookUpdateRequest updateRequest = new BookUpdateRequest(
-                original.getId(), "Updated Name", "Updated Author", "Updated Description"
+                original.getId(), "Updated Name", "Updated Author", "Updated Description", "Updated Code"
         );
 
         Book updated = underTest.update(updateRequest);
@@ -127,7 +127,7 @@ public class BookServiceTests {
     @Test
     void whenUpdateNonExistingBook_thenReturnNull() {
         BookUpdateRequest updateRequest = new BookUpdateRequest(
-                "nonexistent-id", "Name", "Author", "Desc"
+                "nonexistent-id", "Name", "Author", "Desc", "Code 1"
         );
         Book updated = underTest.update(updateRequest);
         assertNull(updated);
@@ -160,7 +160,7 @@ public class BookServiceTests {
 
     @Test
     void whenCreateWithEmptyUpdateList_thenItRemainsEmpty() {
-        BookCreateRequest request = new BookCreateRequest("Fresh Title", "New Author", "New Desc");
+        BookCreateRequest request = new BookCreateRequest("Fresh Title", "New Author", "New Desc", "New Code");
         Book created = underTest.create(request);
         assertNotNull(created);
         assertTrue(created.getUpdateDate().isEmpty());

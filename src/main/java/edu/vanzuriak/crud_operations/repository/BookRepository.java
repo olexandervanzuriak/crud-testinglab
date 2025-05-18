@@ -14,5 +14,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BookRepository extends MongoRepository<Book, String> {
-    public boolean existsByName(String name);
+    public boolean existsByCode(String code);
 }

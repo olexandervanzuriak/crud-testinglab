@@ -8,6 +8,6 @@ package edu.vanzuriak.crud_operations.request;
     @since 5/10/25 - 09 - 45
 */
 
-public record BookCreateRequest(String name, String author, String description) {
+public record BookCreateRequest(String name, String author, String description, String code) {
 
 }

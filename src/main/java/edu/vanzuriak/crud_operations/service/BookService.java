@@ -28,9 +28,9 @@ public class BookService {
 
     private List<Book> books = new ArrayList<>();
     {
-        books.add(new Book("name1", "author1", "description1"));
-        books.add(new Book("2", "name2", "author2", "description2"));
-        books.add(new Book("3", "name3", "author3", "description3"));
+        books.add(new Book("1", "name1", "author1", "description1", "code1" ));
+        books.add(new Book("2", "name2", "author2", "description2", "code2" ));
+        books.add(new Book("3", "name3", "author3", "description3", "code3" ));
     };
 
     @PostConstruct
@@ -52,7 +52,7 @@ public class BookService {
     }
 
     public Book create(BookCreateRequest request) {
-        if (bookRepository.existsByName(request.name())) {
+        if (bookRepository.existsByCode(request.code())) {
             return null;
         }
         Book book = mapToBook(request);
@@ -76,6 +76,7 @@ public class BookService {
                             .name(request.name())
                             .author(request.author())
                             .description(request.description())
+                            .code(request.code())
                             .createDate(bookPersisted.getCreateDate())
                             .updateDate(updateDates)
                             .build();
@@ -86,8 +87,13 @@ public class BookService {
     }
 
     private Book mapToBook(BookCreateRequest request) {
-        Book book = new Book(request.name(), request.author(), request.description());
-        return book;
+        return Book.builder()
+                .name(request.name())
+                .author(request.author())
+                .description(request.description())
+                .code(request.code())
+                .build();
+
     }
 
     public void deleteById(String id) {
