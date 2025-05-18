@@ -69,19 +69,22 @@ public class BookService {
         Book bookPersisted = bookRepository.findById(request.id()).orElse(null);
         if (bookPersisted != null) {
             List<LocalDateTime> updateDates = bookPersisted.getUpdateDate();
+            if (updateDates == null) {
+                updateDates = new ArrayList<>();
+            }
             updateDates.add(LocalDateTime.now());
-            Book bookToUpdate =
-                    Book.builder()
-                            .id(request.id())
-                            .name(request.name())
-                            .author(request.author())
-                            .description(request.description())
-                            .code(request.code())
-                            .createDate(bookPersisted.getCreateDate())
-                            .updateDate(updateDates)
-                            .build();
-            return bookRepository.save(bookToUpdate);
 
+            Book bookToUpdate = Book.builder()
+                    .id(request.id())
+                    .name(request.name())
+                    .author(request.author())
+                    .description(request.description())
+                    .code(request.code())
+                    .createDate(bookPersisted.getCreateDate())
+                    .updateDate(updateDates)
+                    .build();
+
+            return bookRepository.save(bookToUpdate);
         }
         return null;
     }

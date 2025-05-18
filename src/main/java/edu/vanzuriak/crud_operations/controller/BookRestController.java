@@ -13,12 +13,14 @@ import edu.vanzuriak.crud_operations.request.BookCreateRequest;
 import edu.vanzuriak.crud_operations.request.BookUpdateRequest;
 import edu.vanzuriak.crud_operations.service.BookService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/books/")
+@RequestMapping("api/v1/books")
 @RequiredArgsConstructor
 public class BookRestController {
     private final BookService bookService;
@@ -30,7 +32,11 @@ public class BookRestController {
 
     @GetMapping("{id}")
     public Book showOneById(@PathVariable String id) {
-        return bookService.getById(id);
+        Book book = bookService.getById(id);
+        if (book == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Book not found");
+        }
+        return book;
     }
 
     @PostMapping
